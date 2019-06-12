@@ -19,7 +19,7 @@ class App extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<SearchBloc>(
               builder: (context) => SearchBloc()),
-          ChangeNotifierProvider<GiphyBloc>(builder: (context) => GiphyBloc())
+          ChangeNotifierProvider<GiphyBloc>(builder: (context) => GiphyBloc()),
         ],
         child: HomeScreen(),
       ),

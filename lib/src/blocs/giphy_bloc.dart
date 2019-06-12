@@ -7,16 +7,18 @@ class GiphyBloc with ChangeNotifier {
 
   List<Giphy> _giphys = List();
   int _offset = 1;
+
   bool isLoading = false;
   bool _isQuerying = false;
 
   List<Giphy> get getGiphys => _giphys;
 
-  setGiphys(giphys) {
+  addGiphys(giphys) {
     this._giphys = giphys;
+    notifyListeners();
   }
 
-  Future<List<Giphy>> _getTrendingGifs() async {
+  Future<List<Giphy>> getTrendingGifs() async {
     return await _service.getTrending();
   }
 
@@ -27,7 +29,7 @@ class GiphyBloc with ChangeNotifier {
   Future<List<Giphy>> validateIfSearchGiphy(String query) {
     if (query == null || query.isEmpty) {
       _isQuerying = false;
-      return _getTrendingGifs();
+      return getTrendingGifs();
     }
 
     _isQuerying = true;

@@ -3,48 +3,42 @@ import 'package:giphy_search/src/models/giphy.dart';
 import 'package:giphy_search/src/services/api/giphy_service.dart';
 
 class GiphyBloc with ChangeNotifier {
+
   final _service = GiphyService();
 
   List<Giphy> _giphys = List();
   int _offset = 1;
 
   bool isLoading = false;
-  bool _isQuerying = false;
+  String _query;
 
   List<Giphy> get getGiphys => _giphys;
 
-  addGiphys(giphys) {
-    this._giphys = giphys;
-    notifyListeners();
+  set setGifs(gifs) => _giphys = gifs;
+  set setQuery(query) => _query = query;
+
+  Future<List<Giphy>> getTrendingGifs() { 
+
+    return _service.getTrending();
   }
 
-  Future<List<Giphy>> getTrendingGifs() async {
-    return await _service.getTrending();
-  }
+  Future<List<Giphy>> searchGifs(String query, {int offset}) {
+    setQuery = query;
 
-  Future<List<Giphy>> _searchGifs(String query, {int offset}) async {
-    return await _service.search(query, offset: offset);
-  }
-
-  Future<List<Giphy>> validateIfSearchGiphy(String query) {
-    if (query == null || query.isEmpty) {
-      _isQuerying = false;
-      return getTrendingGifs();
-    }
-
-    _isQuerying = true;
-
-    return _searchGifs(query);
+    return _service.search(query, offset: offset);
   }
 
   loadMore() async {
-    if (_isQuerying) {
-      isLoading = true;
-      final response = await _searchGifs("text", offset: _offset);
-      isLoading = false;
+     
+      if (_query == null || _query.isEmpty) {
+        print("QUERY: $_query");
+        return;
+      }
+ print("LOAD MORE : $_query");
+      final response = await searchGifs(_query, offset: _offset);
       _giphys.addAll(response);
+       notifyListeners();
       _offset++;
-      notifyListeners();
-    }
+     
   }
 }

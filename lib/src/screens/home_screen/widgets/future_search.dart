@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:giphy_search/src/blocs/giphy_bloc.dart';
 import 'package:giphy_search/src/models/giphy.dart';
@@ -6,12 +7,18 @@ import 'package:giphy_search/src/screens/home_screen/widgets/gif_gridview_empty.
 import 'package:provider/provider.dart';
 
 class FutureSearch extends StatelessWidget {
+
+  final String query;
+
+  FutureSearch({@required this.query});
+
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<GiphyBloc>(context);
+    print("BUILDER FUTURE SEARCH");
+    final bloc = Provider.of<GiphyBloc>(context, listen: false);
 
     return FutureBuilder<List<Giphy>>(
-      future: bloc.getTrendingGifs(),
+      future: bloc.searchGifs(query),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -19,6 +26,7 @@ class FutureSearch extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           default:
             if (snapshot.hasData) {
+              bloc.setGifs = snapshot.data;
               return snapshot.data.isEmpty ? GifGridviewEmpty : GifGridView();
             }
             return Text(snapshot.error.toString());

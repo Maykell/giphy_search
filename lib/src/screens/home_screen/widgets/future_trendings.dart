@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 class FutureTrendings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<GiphyBloc>(context);
+    print("BUILDER FUTURE TRENDINGS");
+    final bloc = Provider.of<GiphyBloc>(context, listen: false);
 
     return FutureBuilder<List<Giphy>>(
       future: bloc.getTrendingGifs(),
@@ -19,7 +20,8 @@ class FutureTrendings extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           default:
             if (snapshot.hasData) {
-              bloc.addGiphys(snapshot.data);
+              bloc.setGifs = snapshot.data;
+              return snapshot.data.isEmpty ? GifGridviewEmpty : GifGridView();
             }
             return Text(snapshot.error.toString());
         }

@@ -22,7 +22,6 @@ class SearchTextField extends StatelessWidget {
         cursorColor: Colors.white,
         style: TextStyle(fontSize: 18.0),
         textAlign: TextAlign.center,
-        onSubmitted: (value) => searchBloc.setSearch(value),
         onChanged: (value) {
           debouncer.run(() => searchBloc.setSearch(value));
         });

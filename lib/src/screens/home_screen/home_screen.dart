@@ -8,8 +8,6 @@ import 'package:provider/provider.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    print("BUILD HOME");
     final appBar = AppBar(
       title: Image.network(
         "https://developers.giphy.com/static/img/dev-logo-lg.7404c00322a8.gif",
@@ -28,11 +26,14 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Consumer<SearchBloc>(builder: (context, searchBloc, _) {
-            final query = searchBloc.getSearch;
-            return query == null || query.isEmpty ? FutureTrendings() : FutureSearch(query: query,);
+              final query = searchBloc.getSearch;
+              return query == null || query.isEmpty
+                  ? FutureTrendings()
+                  : FutureSearch(
+                      query: query,
+                    );
             }),
           ),
-         
         ],
       ),
     );

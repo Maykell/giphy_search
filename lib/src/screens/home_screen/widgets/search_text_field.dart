@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:giphy_search/src/blocs/giphy_bloc.dart';
 import 'package:giphy_search/src/blocs/search_bloc.dart';
 import 'package:giphy_search/src/utils/debouncer.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,8 @@ class SearchTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("BUILD TEXTFIELD");
     final searchBloc = Provider.of<SearchBloc>(context, listen: false);
+    final giphyBloc = Provider.of<GiphyBloc>(context, listen: false);
 
     return TextField(
         decoration: InputDecoration(
@@ -23,6 +24,7 @@ class SearchTextField extends StatelessWidget {
         style: TextStyle(fontSize: 18.0),
         textAlign: TextAlign.center,
         onChanged: (value) {
+          giphyBloc.setQuery(value);
           debouncer.run(() => searchBloc.setSearch(value));
         });
   }

@@ -7,7 +7,6 @@ import 'package:giphy_search/src/screens/home_screen/widgets/gif_gridview_empty.
 import 'package:provider/provider.dart';
 
 class FutureSearch extends StatelessWidget {
-
   final String query;
 
   FutureSearch({@required this.query});
@@ -27,7 +26,7 @@ class FutureSearch extends StatelessWidget {
           default:
             if (snapshot.hasData) {
               bloc.setGifs = snapshot.data;
-              return snapshot.data.isEmpty ? GifGridviewEmpty : GifGridView();
+              return snapshot.data.isEmpty ? GifGridviewEmpty() : GifGridView();
             }
             return Text(snapshot.error.toString());
         }

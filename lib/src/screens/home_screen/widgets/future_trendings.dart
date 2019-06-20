@@ -21,7 +21,7 @@ class FutureTrendings extends StatelessWidget {
           default:
             if (snapshot.hasData) {
               bloc.setGifs = snapshot.data;
-              return snapshot.data.isEmpty ? GifGridviewEmpty : GifGridView();
+              return snapshot.data.isEmpty ? GifGridviewEmpty() : GifGridView();
             }
             return Text(snapshot.error.toString());
         }
